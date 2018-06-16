@@ -1,0 +1,222 @@
+﻿
+@{
+    ViewData["Title"] = "Options";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    th {
+        color: white;
+        text-align: center;
+        width: 200px;
+    }
+
+    td {
+        height: 30px;
+    }
+</style>
+<div ng-controller="OptionsController" ng-init="init()" ng-cloak>
+    <div style="margin-top:50px;margin-bottom:20px;">
+        <h2>Options</h2>
+    </div>
+    <div class="container" style="margin:auto;margin-top:50px">
+        <table class="table-bordered" style="width:50%;margin:auto">
+            <tr>
+                <td style="width:50%;">Total Profit(UnRealized)</td>
+                <td>{{sumOfStocksWithProfit}}</td>
+            </tr>
+            <tr>
+                <td style="width:50%;">Total Loss(UnRealized)</td>
+                <td>{{sumOfStocksWithLoss}}</td>
+            </tr>
+            <tr>
+                <td style="width:50%;">Total Profit(Realized)</td>
+                <td>{{sumOfStocksWithProfitSold}}</td>
+            </tr>
+            <tr>
+                <td style="width:50%;">Total Loss(Realized)</td>
+                <td>{{sumOfStocksWithLossSold}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="container">
+        <div style="margin-top:50px;">
+            <h5><a href="#" ng-click="ShowOptionAddPopup()">Add Transaction</a></h5>
+        </div>
+        <table class="table-bordered" style="float:left">
+            <thead style="background-color:black;">
+                <tr>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Average Price</th>
+                    <th>Invested Amount</th>
+                    <th>Current Price</th>
+                    <th>Current Value of Investment</th>
+                    <th>Profit/Loss</th>
+                    <th>% Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="option in AllOptions">
+                    <td><a href="#" ng-click="UpdateOptions(option)">{{option.optionName}}</a></td>
+                    <td>{{option.quantity}}</td>
+                    <td>{{option.avgPrice}}</td>
+                    <td>{{option.totalInvestmentValue}}</td>
+                    <td>{{option.currentOptionPrice}}</td>
+                    <td>{{option.currentInvestmentValue}}</td>
+                    <td>{{option.profitLoss}}</td>
+                    <td>{{option.change}}%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="optionAddPopup" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="" ng-submit="AddOption()" novalidate ng-model-options="{ allowInvalid: true}">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add New Option Transaction</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="optionName" class="control-label">
+                                        option Name:
+                                    </label>
+                                    <input id="optionName"
+                                           class="form-control"
+                                           name="optionName"
+                                           type="text"
+                                           ng-model="newoption.optionName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="quantity" class="control-label">
+                                        Quantity:
+                                    </label>
+                                    <input id="quantity"
+                                           class="form-control"
+                                           name="quantity"
+                                           type="text"
+                                           ng-model="newoption.quantity">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="avgPrice" class="control-label">
+                                        Average Price:
+                                    </label>
+                                    <input id="avgPrice"
+                                           class="form-control"
+                                           name="avgPrice"
+                                           type="text"
+                                           ng-model="newoption.avgPrice">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="currentoptionPrice" class="control-label">
+                                        Current option Price:
+                                    </label>
+                                    <input id="currentoptionPrice"
+                                           class="form-control"
+                                           name="currentoptionPrice"
+                                           type="text"
+                                           ng-model="newoption.currentoptionPrice">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer clear-fix">
+                        <button type="submit" class="btn-success">Save</button>
+                        <button class="btn-warning" ng-click="Cancel()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="optionEditPopup" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="" ng-submit="UpdateOption()" novalidate ng-model-options="{ allowInvalid: true}">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Update Option</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="optionName" class="control-label">
+                                        option Name:
+                                    </label>
+                                    <input id="optionName"
+                                           class="form-control"
+                                           name="optionName"
+                                           type="text"
+                                           ng-model="editoption.optionName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="quantity" class="control-label">
+                                        Quantity:
+                                    </label>
+                                    <input id="quantity"
+                                           class="form-control"
+                                           name="quantity"
+                                           type="text"
+                                           ng-model="editoption.quantity">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="avgPrice" class="control-label">
+                                        Average Price:
+                                    </label>
+                                    <input id="avgPrice"
+                                           class="form-control"
+                                           name="avgPrice"
+                                           type="text"
+                                           ng-model="editoption.avgPrice">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="currentoptionPrice" class="control-label">
+                                        Current option Price:
+                                    </label>
+                                    <input id="currentoptionPrice"
+                                           class="form-control"
+                                           name="currentoptionPrice"
+                                           type="text"
+                                           ng-model="editoption.currentoptionPrice">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer clear-fix">
+                        <button type="submit" class="btn-success">Save</button>
+                        <button class="btn-warning" ng-click="Cancel()">Cancel</button>
+                        <button class="btn-primary" ng-click="SellOption()">Sell</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

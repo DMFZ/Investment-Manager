@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewData["Title"] = "MutualFunds";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    th {
+        color: white;
+        text-align: center;
+        width: 200px;
+    }
+
+    td {
+        height: 30px;
+    }
+</style>
+<div ng-controller="MutualFundController" ng-init="init()" ng-cloak>
+    <div style="margin-top:50px;margin-bottom:20px;">
+        <h2>Mutual Funds Portfolio</h2>
+    </div>
+
+    <div class="container">
+        <div style="margin-top:50px;">
+            <h5><a href="#" ng-click="MutualFundAdd()">Add Transaction</a></h5>
+        </div>
+        <table class="table-bordered" style="float:left">
+            <thead style="background-color:black;">
+                <tr>
+                    <th>Name</th>
+                    <th>No. of Units</th>
+                    <th>Averge NAV</th>
+                    <th>Invested Amount</th>
+                    <th>Current NAV</th>
+                    <th>Current Value of Investment</th>
+                    <th>Profit/Loss</th>
+                    <th>% Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="mf in allMutualfunds">
+                    <td><a href="#" ng-click="UpdateMutualFunds(mf)">{{mf.mutualFundName}}</a></td>
+                    <td>{{mf.unitsHeld}}</td>
+                    <td>{{mf.investmentNAV}}</td>
+                    <td>{{mf.totalInvestmentValue}}</td>
+                    <td>{{mf.currentNAV}}</td>
+                    <td>{{mf.currentInvestmentValue}}</td>
+                    <td>{{mf.profitLoss}}</td>
+                    <td>{{mf.change}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="MutualFundAddPopup" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="addNewMutualFundTransaction" ng-submit="AddMutualFunds()" novalidate ng-model-options="{ allowInvalid: true}">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add New Mutual Fund Transaction</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="mfName" class="control-label">
+                                        Mutual Fund Name:
+                                    </label>
+                                    <input id="mfName"
+                                           class="form-control"
+                                           name="mfName"
+                                           type="text"
+                                           ng-model="newMutualFunds.mfName">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="mfQuantity" class="control-label">
+                                        No. of Units:
+                                    </label>
+                                    <input id="mfQuantity"
+                                           class="form-control"
+                                           name="mfQuantity"
+                                           type="text"
+                                           ng-model="newMutualFunds.mfQuantity">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="mfavgNAV" class="control-label">
+                                        Average NAV:
+                                    </label>
+                                    <input id="mfavgNAV"
+                                           class="form-control"
+                                           name="mfavgNAV"
+                                           type="text"
+                                           ng-model="newMutualFunds.mfavgNAV">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="mfCurrentNAV" class="control-label">
+                                        Current NAV:
+                                    </label>
+                                    <input id="mfCurrentNAV"
+                                           class="form-control"
+                                           name="mfCurrentNAV"
+                                           type="text"
+                                           ng-model="newMutualFunds.mfCurrentNAV">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer clear-fix">
+                        <button type="submit" class="btn-success">Save</button>
+                        <button class="btn-warning" ng-click="Cancel()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    th{
+        color:white;
+        text-align:center;
+    }
+    td{
+        height:30px;
+    }
+</style>
+
+<div class="container" ng-controller="HomePageController" ng-init="init()" ng-cloak>
+    <div style="margin-top:50px;margin-bottom:20px;">
+        <h2>Financial Summary</h2>
+    </div>
+    <div class="container" style="margin:auto">
+        <table class="table-bordered" style="width:90%;margin:auto">
+            <thead style="background-color:black">
+                <tr>
+                    <th>Instrument of Investment</th>
+                    <th>Invested Amount</th>
+                    <th>Current Value</th>
+                    <th>Profit/Loss</th>
+                    <th>% Change</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a asp-area="" asp-controller="Home" asp-action="Stocks">Investment in Stocks</a></td>
+                    <td>{{totalInvestmentValue}}</td>
+                    <td>{{currentStockValue}}</td>
+                    <td>{{profitLossStocks}}</td>
+                    <td>{{changeInValue}}</td>
+                </tr>
+                <tr>
+                    <td><a>Investment in Mutual Funds</a></td>
+                    <td>{{totalInvestmentValueFunds}}</td>
+                    <td>{{currentFundsValue}}</td>
+                    <td>{{profitLossFunds}}</td>
+                    <td>{{changeInValueFunds}}</td>
+                </tr>
+                <tr>
+                    <td><a>Investment in Options</a></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="container" style="margin:auto;margin-top:50px">
+        <table class="table-bordered" style="width:50%;margin:auto">
+            <tr>
+                <td style="width:50%;">Total Invested Amount</td>
+                <td>{{totalInvestmentValue}}</td>
+            </tr>
+            <tr>
+                <td style="width:50%;">Money Available in Zerodha</td>
+                <td>6918.9</td>
+            </tr>
+            <tr>
+                <td style="width:50%;">Current Value of Investment</td>
+                <td>{{currentStockValue}}</td>
+            </tr>
+            <tr>
+                <td style="width:50%;">% Change</td>
+                <td>{{changeInValue}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
